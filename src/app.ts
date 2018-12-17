@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import requireDir = require('require-dir');
-import { handleCommand } from './commands';
+import { handleCommand } from './command';
 
 requireDir("./cmd");
 
