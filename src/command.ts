@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import CmdArgs from './cmd/cmd';
+import CmdArgs from './cmd/cmd-args';
 
 var commandsMap: Map<string, Function> = new Map();
 

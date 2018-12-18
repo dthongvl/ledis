@@ -1,23 +1,26 @@
-import store, { acquire } from '../storage/store';
+import store, { acquire, DataType } from '../storage/store';
 import { registerCommand } from '../command';
-import CmdArgs from './cmd';
+import CmdArgs from './cmd-args';
 
-function listLen(cmd: CmdArgs) {
-    acquire(cmd.key, 'list');
+export function listLen(cmd: CmdArgs) {
+    cmd.requireKeyOnly();
+    acquire(cmd.key, DataType.LIST);
     const values = store.get(cmd.key);
     return values ? values.length : 0;
 }
 
-function rightPush(cmd: CmdArgs) {
-    acquire(cmd.key, 'list');
+export function rightPush(cmd: CmdArgs) {
+    cmd.requireKeyValue();
+    acquire(cmd.key, DataType.LIST);
     let current: Array<string> = store.get(cmd.key) || new Array();
     current = current.concat(cmd.values);
     store.set(cmd.key, current);
     return current.length;
 }
 
-function leftPop(cmd: CmdArgs) {
-    acquire(cmd.key, 'list');
+export function leftPop(cmd: CmdArgs) {
+    cmd.requireKeyOnly();
+    acquire(cmd.key, DataType.LIST);
     let current: Array<string> = store.get(cmd.key);
     if (!current) {
         return '';
@@ -32,8 +35,9 @@ function leftPop(cmd: CmdArgs) {
     return value;
 }
 
-function rightPop(cmd: CmdArgs) {
-    acquire(cmd.key, 'list');
+export function rightPop(cmd: CmdArgs) {
+    cmd.requireKeyOnly();
+    acquire(cmd.key, DataType.LIST);
     let current: Array<string> = store.get(cmd.key);
     if (!current) {
         return '';
@@ -48,13 +52,14 @@ function rightPop(cmd: CmdArgs) {
     return value;
 }
 
-function listRange(cmd: CmdArgs) {
+export function listRange(cmd: CmdArgs) {
+    cmd.requireKeyValue();
     let start = parseInt(cmd.values[0]);
     let end = parseInt(cmd.values[1]);
     if (start < 0 || end < 0) {
         throw new Error("index out of range");
     }
-    acquire(cmd.key, 'list');
+    acquire(cmd.key, DataType.LIST);
     let current: Array<string> = store.get(cmd.key);
     if (!current) {
         return 'empty list or set';

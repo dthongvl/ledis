@@ -1,19 +1,16 @@
 import { registerCommand } from '../command';
-import store, { acquire } from '../storage/store';
-import CmdArgs from './cmd';
+import store, { acquire, DataType } from '../storage/store';
+import CmdArgs from './cmd-args';
 
-function stringGet(cmd: CmdArgs) {
+export function stringGet(cmd: CmdArgs) {
     cmd.requireKeyOnly();
+    acquire(cmd.key, DataType.STRING);
     const value = store.get(cmd.key);
-    if (value && typeof(value) !== 'string') {
-        throw new Error("Operation against a key holding the wrong kind of value");
-    }
     return value ? value : "";
 }
 
-function stringSet(cmd: CmdArgs) {
+export function stringSet(cmd: CmdArgs) {
     cmd.requireKeyValue();
-    acquire(cmd.key, 'string');
     store.set(cmd.key, cmd.values[0]);
     return "OK";
 }

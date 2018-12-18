@@ -47,9 +47,9 @@ class CmdArgs {
         cmd = cmd.trim();
         const firstSpaceIndex: number = cmd.indexOf(" ");
         if (firstSpaceIndex === -1) {
-            this.name = cmd;
+            this.name = cmd.toLowerCase();
         } else {
-            this.name = cmd.substring(0, firstSpaceIndex);
+            this.name = cmd.substring(0, firstSpaceIndex).toLowerCase();
             cmd = cmd.substring(firstSpaceIndex + 1, cmd.length);
             let stringToken = this.getValue(cmd);
             this.key = stringToken.value;
@@ -63,6 +63,18 @@ class CmdArgs {
                     break;
                 }
             }
+        }
+    }
+
+    requireNothingElse() {
+        if (this.key !== "" || this.values.length > 0) {
+            throw new Error(`wrong number of arguments for '${this.name}' command`);
+        }
+    }
+
+    requireKey() {
+        if (this.key === "") {
+            throw new Error(`wrong number of arguments for '${this.name}' command`);
         }
     }
 
