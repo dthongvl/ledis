@@ -2,23 +2,23 @@ import store, { acquire, DataType } from '../storage/store';
 import { registerCommand } from '../command';
 import CmdArgs from './cmd-args';
 
-export function listLen(cmd: CmdArgs) {
+export function listLen(cmd: CmdArgs): string {
     cmd.requireKeyOnly();
     acquire(cmd.key, DataType.LIST);
-    const values = store.get(cmd.key);
-    return values ? values.length : 0;
+    const values = store.get(cmd.key) || new Array();
+    return values.length.toString();
 }
 
-export function rightPush(cmd: CmdArgs) {
+export function rightPush(cmd: CmdArgs): string {
     cmd.requireKeyValue();
     acquire(cmd.key, DataType.LIST);
     let current: Array<string> = store.get(cmd.key) || new Array();
     current = current.concat(cmd.values);
     store.set(cmd.key, current);
-    return current.length;
+    return current.length.toString();
 }
 
-export function leftPop(cmd: CmdArgs) {
+export function leftPop(cmd: CmdArgs): string {
     cmd.requireKeyOnly();
     acquire(cmd.key, DataType.LIST);
     let current: Array<string> = store.get(cmd.key);
@@ -35,7 +35,7 @@ export function leftPop(cmd: CmdArgs) {
     return value;
 }
 
-export function rightPop(cmd: CmdArgs) {
+export function rightPop(cmd: CmdArgs): string {
     cmd.requireKeyOnly();
     acquire(cmd.key, DataType.LIST);
     let current: Array<string> = store.get(cmd.key);
@@ -52,7 +52,7 @@ export function rightPop(cmd: CmdArgs) {
     return value;
 }
 
-export function listRange(cmd: CmdArgs) {
+export function listRange(cmd: CmdArgs): string {
     cmd.requireKeyValue();
     let start = parseInt(cmd.values[0]);
     let end = parseInt(cmd.values[1]);
@@ -71,7 +71,7 @@ export function listRange(cmd: CmdArgs) {
     if (end >= current.length) {
         end = current.length;
     }
-    return current.slice(start, end + 1);
+    return current.slice(start, end + 1).toString();
 }
 
 registerCommand('llen', listLen);

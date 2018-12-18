@@ -2,31 +2,31 @@ import store from '../storage/store';
 import { registerCommand } from '../command';
 import CmdArgs from './cmd-args';
 
-export function listKeys(cmd: CmdArgs) {
+export function listKeys(cmd: CmdArgs): string {
     cmd.requireNothingElse();
-    return Array.from(store.keys());
+    return Array.from(store.keys()).toString();
 }
 
-export function deleteKey(cmd: CmdArgs) {
+export function deleteKey(cmd: CmdArgs): string {
     cmd.requireKeyOnly();
-    return store.delete(cmd.key) ? 1 : 0;
+    return store.delete(cmd.key) ? '1' : '0';
 }
 
-export function flushDb(cmd: CmdArgs) {
+export function flushDb(cmd: CmdArgs): string {
     cmd.requireNothingElse();
     store.clear();
     return '';
 }
 
-export function expire(cmd: CmdArgs) {
+export function expire(cmd: CmdArgs): string {
     cmd.requireKeyValue();
     const seconds = parseInt(cmd.values[0]);
-    return store.setTTL(cmd.key, seconds) ? 1 : 0;
+    return store.setTTL(cmd.key, seconds) ? '1' : '0';
 }
 
-export function ttl(cmd: CmdArgs) {
+export function ttl(cmd: CmdArgs): string {
     cmd.requireKeyOnly();
-    return store.getTTL(cmd.key);
+    return store.getTTL(cmd.key).toString();
 }
 
 registerCommand('keys', listKeys);

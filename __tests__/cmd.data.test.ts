@@ -42,7 +42,7 @@ describe("deleteKey", () => {
         let cmd = new CmdArgs();
         cmd.parse("DEL foo");
         expect(store.size()).toBe(3);
-        expect(deleteKey(cmd)).toBe(0);
+        expect(deleteKey(cmd)).toBe("0");
         expect(store.size()).toBe(3);
     });
 
@@ -50,7 +50,7 @@ describe("deleteKey", () => {
         let cmd = new CmdArgs();
         cmd.parse("DEL string");
         expect(store.size()).toBe(3);
-        expect(deleteKey(cmd)).toBe(1);
+        expect(deleteKey(cmd)).toBe("1");
         expect(store.size()).toBe(2);
     });
 });
@@ -95,18 +95,18 @@ describe("expire", () => {
     test("Should return 0 when key does not exist", () => {
         let cmd = new CmdArgs();
         cmd.parse("EXPIRE foo 10");
-        expect(expire(cmd)).toBe(0);
+        expect(expire(cmd)).toBe("0");
     });
 
     test("Should return 1 and set expire when everything is okay", () => {
         let cmd = new CmdArgs();
         cmd.parse("EXPIRE string 10");
-        expect(expire(cmd)).toBe(1);
+        expect(expire(cmd)).toBe("1");
 
         let cmd2 = new CmdArgs();
         cmd2.parse("TTL string");
-        expect(ttl(cmd2)).toBeGreaterThan(0);
-        expect(ttl(cmd2)).toBeLessThanOrEqual(10);
+        expect(parseInt(ttl(cmd2))).toBeGreaterThan(0);
+        expect(parseInt(ttl(cmd2))).toBeLessThanOrEqual(10);
     });
 
     test("Should be deleted when timeout", () => {
@@ -147,13 +147,13 @@ describe("ttl", () => {
         {
             let cmd = new CmdArgs();
             cmd.parse("TTL notExistingKey");
-            expect(ttl(cmd)).toBe(-2);
+            expect(ttl(cmd)).toBe("-2");
         }
 
         {
             let cmd = new CmdArgs();
             cmd.parse("TTL string");
-            expect(ttl(cmd)).toBe(-1);
+            expect(ttl(cmd)).toBe("-1");
         }
     });
 
@@ -164,6 +164,6 @@ describe("ttl", () => {
 
         let cmd2 = new CmdArgs();
         cmd2.parse("TTL string");
-        expect(ttl(cmd2)).toBeLessThanOrEqual(10);
+        expect(parseInt(ttl(cmd2))).toBeLessThanOrEqual(10);
     })
 });
