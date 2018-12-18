@@ -2,7 +2,7 @@ import CmdArgs from './cmd-args';
 import { registerCommand } from '../command';
 import store, { acquire, DataType } from '../storage/store';
 
-function setAdd(cmd: CmdArgs): string {
+export function setAdd(cmd: CmdArgs): string {
     cmd.requireKeyValue();
     acquire(cmd.key, DataType.SET);
     let current: Set<string> = store.get(cmd.key) || new Set();
@@ -17,21 +17,21 @@ function setAdd(cmd: CmdArgs): string {
     return counter.toString();
 }
 
-function scard(cmd: CmdArgs): string {
+export function scard(cmd: CmdArgs): string {
     cmd.requireKeyOnly();
     acquire(cmd.key, DataType.SET);
     const current: Set<string> = store.get(cmd.key) || new Set();
     return current.size.toString();
 }
 
-function setMembers(cmd: CmdArgs): string {
+export function setMembers(cmd: CmdArgs): string {
     cmd.requireKeyOnly();
     acquire(cmd.key, DataType.SET);
     const current: Set<string> = store.get(cmd.key) || new Set();
-    return Array.from(current).join(' ');
+    return Array.from(current).join(',');
 }
 
-function setRemove(cmd: CmdArgs): string {
+export function setRemove(cmd: CmdArgs): string {
     cmd.requireKeyValue();
     acquire(cmd.key, DataType.SET);
     const current: Set<string> = store.get(cmd.key) || new Set();
@@ -50,7 +50,7 @@ function setRemove(cmd: CmdArgs): string {
     return counter.toString();
 }
 
-function setIntersect(cmd: CmdArgs): string {
+export function setIntersect(cmd: CmdArgs): string {
     cmd.requireKey();
     acquire(cmd.key, DataType.SET);
     cmd.values.forEach((value: string) => {
@@ -68,7 +68,7 @@ function setIntersect(cmd: CmdArgs): string {
         }
         current = new Set([...current].filter(x => member.has(x)));
     });
-    return Array.from(current).join(' ');
+    return Array.from(current).join(',');
 }
 
 registerCommand('sadd', setAdd);

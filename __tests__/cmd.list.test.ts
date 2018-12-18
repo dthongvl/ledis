@@ -9,6 +9,42 @@ beforeEach(() => {
 });
 
 describe("listLen", () => {
+    test("Should throw Error when get wrong type", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LLEN string");
+            expect(() => {
+                listLen(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LLEN set");
+            expect(() => {
+                listLen(cmd);
+            }).toThrow();
+        }
+    });
+
+    test("Should throw Error when does not satisfy argument", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LLEN");
+            expect(() => {
+                listLen(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LLEN list bar");
+            expect(() => {
+                listLen(cmd);
+            }).toThrow();
+        }
+    });
+
     test("Should return 0 when key does not exist", () => {
         let cmd = new CmdArgs();
         cmd.parse("LLEN foo");
@@ -23,6 +59,42 @@ describe("listLen", () => {
 });
 
 describe("rightPush", () => {
+    test("Should throw Error when get wrong type", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPUSH string string");
+            expect(() => {
+                rightPush(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPUSH set set");
+            expect(() => {
+                rightPush(cmd);
+            }).toThrow();
+        }
+    });
+
+    test("Should throw Error when does not satisfy argument", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPUSH");
+            expect(() => {
+                rightPush(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPUSH list");
+            expect(() => {
+                rightPush(cmd);
+            }).toThrow();
+        }
+    });
+
     test("Should return new list len when everything is ok", () => {
         let cmd = new CmdArgs();
         cmd.parse("RPUSH list newItem newItem2");
@@ -31,9 +103,48 @@ describe("rightPush", () => {
 });
 
 describe("leftPop", () => {
+    test("Should throw Error when get wrong type", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LPOP string");
+            expect(() => {
+                leftPop(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LPOP set");
+            expect(() => {
+                leftPop(cmd);
+            }).toThrow();
+        }
+    });
+
+    test("Should throw Error when does not satisfy argument", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LPOP");
+            expect(() => {
+                leftPop(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LPOP list list");
+            expect(() => {
+                leftPop(cmd);
+            }).toThrow();
+        }
+    });
+
     test("Should delete key when list is empty after deleted", () => {
         let cmd = new CmdArgs();
         cmd.parse("LPOP list");
+
+        expect(store.get("list")).toHaveLength(3);
+
         leftPop(cmd);
         leftPop(cmd);
         leftPop(cmd);
@@ -54,9 +165,48 @@ describe("leftPop", () => {
 });
 
 describe("rightPop", () => {
+    test("Should throw Error when get wrong type", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPOP string");
+            expect(() => {
+                rightPop(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPOP set");
+            expect(() => {
+                rightPop(cmd);
+            }).toThrow();
+        }
+    });
+
+    test("Should throw Error when does not satisfy argument", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPOP");
+            expect(() => {
+                rightPop(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("RPOP list list");
+            expect(() => {
+                rightPop(cmd);
+            }).toThrow();
+        }
+    });
+
     test("Should delete key when list is empty after deleted", () => {
         let cmd = new CmdArgs();
         cmd.parse("RPOP list");
+
+        expect(store.get("list")).toHaveLength(3);
+        
         rightPop(cmd);
         rightPop(cmd);
         rightPop(cmd);
@@ -77,6 +227,50 @@ describe("rightPop", () => {
 });
 
 describe("listRange", () => {
+    test("Should throw Error when get wrong type", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LRANGE string 0 2");
+            expect(() => {
+                listRange(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LRANGE set 0 2");
+            expect(() => {
+                listRange(cmd);
+            }).toThrow();
+        }
+    });
+
+    test("Should throw Error when does not satisfy argument", () => {
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LRANGE");
+            expect(() => {
+                listRange(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LRANGE list");
+            expect(() => {
+                listRange(cmd);
+            }).toThrow();
+        }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LRANGE list 0");
+            expect(() => {
+                listRange(cmd);
+            }).toThrow();
+        }
+    });
+
     test("Should throw Error when start or end is negative", () => {
         {
             let cmd = new CmdArgs();

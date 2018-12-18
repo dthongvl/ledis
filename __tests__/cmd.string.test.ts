@@ -38,7 +38,7 @@ describe("stringGet", () => {
 
         {
             let cmd = new CmdArgs();
-            cmd.parse("GET foo bar");
+            cmd.parse("GET string string");
             expect(() => {
                 stringGet(cmd);
             }).toThrow();
@@ -70,7 +70,7 @@ describe("stringSet", () => {
 
         {
             let cmd = new CmdArgs();
-            cmd.parse("SET foo");
+            cmd.parse("SET string");
             expect(() => {
                 stringSet(cmd);
             }).toThrow();

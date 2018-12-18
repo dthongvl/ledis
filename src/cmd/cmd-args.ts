@@ -84,8 +84,11 @@ class CmdArgs {
         }
     }
 
-    requireKeyValue() {
-        if (this.key === "" || this.values.length <= 0) {
+    requireKeyValue(miniumTotalValue?: number) {
+        if (!miniumTotalValue || miniumTotalValue < 0) {
+            miniumTotalValue = 1;
+        }
+        if (this.key === "" || this.values.length < miniumTotalValue) {
             throw new Error(`wrong number of arguments for '${this.name}' command`);
         }
     }
