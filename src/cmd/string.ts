@@ -10,7 +10,7 @@ export function stringGet(cmd: CmdArgs): string {
 }
 
 export function stringSet(cmd: CmdArgs): string {
-    cmd.requireKeyValue();
+    cmd.requireKeyValueExact(1);
     store.set(cmd.key, cmd.values[0]);
     return "OK";
 }

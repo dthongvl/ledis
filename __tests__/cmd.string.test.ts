@@ -75,6 +75,14 @@ describe("stringSet", () => {
                 stringSet(cmd);
             }).toThrow();
         }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("SET string string string");
+            expect(() => {
+                stringSet(cmd);
+            }).toThrow();
+        }
     });
 
     test("Should map key to value when everything is ok", () => {

@@ -90,6 +90,14 @@ describe("expire", () => {
                 expire(cmd);
             }).toThrow();
         }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("EXPIRE string 10 10");
+            expect(() => {
+                expire(cmd);
+            }).toThrow();
+        }
     });
 
     test("Should return 0 when key does not exist", () => {

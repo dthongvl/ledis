@@ -53,7 +53,7 @@ export function rightPop(cmd: CmdArgs): string {
 }
 
 export function listRange(cmd: CmdArgs): string {
-    cmd.requireKeyValue(2);
+    cmd.requireKeyValueExact(2);
     let start = parseInt(cmd.values[0]);
     let end = parseInt(cmd.values[1]);
     if (start < 0 || end < 0) {

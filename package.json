@@ -35,7 +35,9 @@
     "typescript": "^3.2.2"
   },
   "jest": {
-    "setupFiles": ["jest-date-mock"],
+    "setupFiles": [
+      "jest-date-mock"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",

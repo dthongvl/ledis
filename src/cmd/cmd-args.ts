@@ -68,29 +68,36 @@ class CmdArgs {
 
     requireNothingElse() {
         if (this.key !== "" || this.values.length > 0) {
-            throw new Error(`wrong number of arguments for '${this.name}' command`);
+            this.wrongNumberOfArgs();
         }
     }
 
     requireKey() {
         if (this.key === "") {
-            throw new Error(`wrong number of arguments for '${this.name}' command`);
+            this.wrongNumberOfArgs();
         }
     }
 
     requireKeyOnly() {
         if (this.key === "" || this.values.length > 0) {
-            throw new Error(`wrong number of arguments for '${this.name}' command`);
+            this.wrongNumberOfArgs();
         }
     }
 
-    requireKeyValue(miniumTotalValue?: number) {
-        if (!miniumTotalValue || miniumTotalValue < 0) {
-            miniumTotalValue = 1;
+    requireKeyValueExact(total: number) {
+        if (this.key === "" || this.values.length != total) {
+            this.wrongNumberOfArgs();
         }
-        if (this.key === "" || this.values.length < miniumTotalValue) {
-            throw new Error(`wrong number of arguments for '${this.name}' command`);
+    }
+
+    requireKeyValue() {
+        if (this.key === "" || this.values.length <= 0) {
+            this.wrongNumberOfArgs();
         }
+    }
+
+    private wrongNumberOfArgs() {
+        throw new Error(`wrong number of arguments for '${this.name}' command`);
     }
 
     print() {

@@ -269,6 +269,14 @@ describe("listRange", () => {
                 listRange(cmd);
             }).toThrow();
         }
+
+        {
+            let cmd = new CmdArgs();
+            cmd.parse("LRANGE list 0 1 2");
+            expect(() => {
+                listRange(cmd);
+            }).toThrow();
+        }
     });
 
     test("Should throw Error when start or end is negative", () => {
