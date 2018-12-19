@@ -21,7 +21,7 @@ export function flushDb(cmd: CmdArgs): string {
 export function expire(cmd: CmdArgs): string {
     cmd.requireKeyValueExact(1);
     const seconds = parseInt(cmd.values[0]);
-    return store.setTTL(cmd.key, seconds) ? '1' : '0';
+    return store.setTTL(cmd.key, seconds) ? cmd.values[0] : '0';
 }
 
 export function ttl(cmd: CmdArgs): string {

@@ -106,10 +106,10 @@ describe("expire", () => {
         expect(expire(cmd)).toBe("0");
     });
 
-    test("Should return 1 and set expire when everything is okay", () => {
+    test("Should return seconds and set expire when everything is okay", () => {
         let cmd = new CmdArgs();
         cmd.parse("EXPIRE string 10");
-        expect(expire(cmd)).toBe("1");
+        expect(expire(cmd)).toBe("10");
 
         let cmd2 = new CmdArgs();
         cmd2.parse("TTL string");
